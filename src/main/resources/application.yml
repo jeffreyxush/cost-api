@@ -1,0 +1,26 @@
+server:
+    port: 8081
+tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    max-connections: 20000
+
+parcel-rule:
+    heavy: 20
+    small: 0.03
+    medium: 0.04
+    large: 0.05
+
+parcel-message:
+    reject: "Reject"
+    heavy: "Heavy Parcel"
+    small: "Small Parcel"
+    medium: "Medium Parcel"
+    large: "Large Parcel"
+
+code:
+    success: 0
+    fail: -1
+
+voucher:
+    url: "https://mynt-exam.mocklab.io/voucher/%s?key=apikey"
