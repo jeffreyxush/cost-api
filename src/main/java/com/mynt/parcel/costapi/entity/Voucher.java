@@ -8,8 +8,6 @@ public class Voucher {
     private Date expiry;
     private double discount;
     private String code;
-
-
     private boolean expired;
 
     public Date getExpiry() {
