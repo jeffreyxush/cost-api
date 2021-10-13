@@ -9,6 +9,9 @@ public class Voucher {
     private double discount;
     private String code;
 
+
+    private boolean expired;
+
     public Date getExpiry() {
         return expiry;
     }
@@ -33,6 +36,12 @@ public class Voucher {
         this.code = code;
     }
 
+    public boolean isExpired() {
+        return expired;
+    }
 
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
 
 }

@@ -11,5 +11,6 @@ public interface ICalculateService {
                           int code,
                           String voucherCode
     );
+    ResultModel getCost(String voucherCode, Parcel parcel);
 }
 

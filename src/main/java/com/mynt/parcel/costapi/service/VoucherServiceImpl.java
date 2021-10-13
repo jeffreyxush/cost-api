@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
+
 @Service
 public class VoucherServiceImpl implements IVoucherService {
 
@@ -29,15 +31,18 @@ public class VoucherServiceImpl implements IVoucherService {
 
                 if(jsonObject!=null && jsonObject.getJSONObject("error")==null) {
                    voucher= JSONObject.toJavaObject(jsonObject, Voucher.class);
+                   System.out.println("voucher discount"+voucher.getDiscount());
                 }
                 else {
                     //invalid voucher code
+                    System.out.println("no voucher found ");
+
                     return null;
                 }
             }
             catch (Exception exception)
             {
-                System.out.println("Response cannot convert to voucher class");
+                System.out.println("Voucher API can not find voucher ,Response cannot convert to voucher class");
                 return null;
 
             }
@@ -46,8 +51,35 @@ public class VoucherServiceImpl implements IVoucherService {
         } else {
             return null;
         }
-
-
     }
 
+
+    /**
+     * get discount by voucher
+     *
+     * @param voucherCode
+     * @return cost result and parcel
+     */
+    public Voucher getDiscountbyVoucher(String voucherCode) {
+        //call voucher api
+        Voucher voucher = getVoucher(voucherCode);
+
+        if (voucher != null) {
+            Date date = new Date();
+
+            //if the voucher is expired then no need to calculate discount
+            int isExpired = voucher.getExpiry().compareTo(date);
+
+            //if isExpired >0 then voucher not expired
+            if (isExpired > 0) {
+                voucher.setExpired(false);
+            }
+            //voucher is expired, no need minus voucher discount
+            else {
+                voucher.setExpired(true);
+            }
+            return voucher;
+        }
+        return null;
+    }
 }

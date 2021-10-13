@@ -11,7 +11,16 @@ public class Parcel {
     private double length;
     private double cost;
     private double volume;
-    private double voucherDiscount;
+    private  Voucher voucher;
+
+    public Voucher getVoucher() {
+        return voucher;
+    }
+
+    public void setVoucher(Voucher voucher) {
+        this.voucher = voucher;
+    }
+
 
     public double getWeight() {
         return weight;
@@ -59,14 +68,6 @@ public class Parcel {
 
     public void setVolume(double volume) {
         this.volume = volume;
-    }
-
-    public double getVoucherDiscount() {
-        return voucherDiscount;
-    }
-
-    public void setVoucherDiscount(double voucherDiscount) {
-        this.voucherDiscount = voucherDiscount;
     }
 
 }

@@ -27,8 +27,6 @@ public class ResultModel<T> implements Serializable {
         message = "";
     }
 
-
-
     public ResultModel(int code, String message) {
         this.code = code;
         this.message = message;
