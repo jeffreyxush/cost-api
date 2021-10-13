@@ -4,6 +4,6 @@ import com.mynt.parcel.costapi.entity.Voucher;
 
 public interface IVoucherService {
     Voucher getVoucher(String code);
-    Voucher getVoucherWithExpiredStatus(String voucherCode);
+    Voucher getDiscountbyVoucher(String voucherCode);
 }
 
