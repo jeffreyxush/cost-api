@@ -42,7 +42,7 @@ public class CalculateServiceImpl implements ICalculateService {
 
         //Weight exceeds 50kg then return reject
         if (parcel.getWeight() > 50) {
-             resultModel= calculate(parcel, parcel.getVolume(), 0,
+             resultModel= calculate(parcel, parcel.getWeight(), rule.getReject(),
                                     message.getReject(),code.getFail(),
                                     voucherCode);
             return resultModel;
@@ -91,13 +91,9 @@ public class CalculateServiceImpl implements ICalculateService {
      * @return cost result and parcel
      */
     @Override
-    public ResultModel calculate(
-            Parcel parcel,
-            double weightOrVolume,
-            double voucherRule,
-            String voucherMessage,
-            int returnCode,
-            String voucherCode
+    public ResultModel calculate(Parcel parcel, double weightOrVolume,
+                                 double voucherRule, String voucherMessage,
+                                 int returnCode, String voucherCode
     ) {
 
         ResultModel resultModel = new ResultModel();

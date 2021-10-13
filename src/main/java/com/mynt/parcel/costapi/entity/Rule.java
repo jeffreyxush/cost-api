@@ -18,6 +18,9 @@ public class Rule {
     @Value("${parcel-rule.large}")
     private double large;
 
+    @Value("${parcel-rule.reject}")
+    private double reject;
+
     public double getHeavy() {
         return heavy;
     }
@@ -48,6 +51,14 @@ public class Rule {
 
     public void setLarge(double large) {
         this.large = large;
+    }
+
+    public double getReject() {
+        return reject;
+    }
+
+    public void setReject(double reject) {
+        this.reject = reject;
     }
 
 
