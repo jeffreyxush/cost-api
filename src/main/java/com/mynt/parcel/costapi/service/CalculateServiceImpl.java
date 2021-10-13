@@ -4,6 +4,7 @@ import com.mynt.parcel.costapi.common.ResultModel;
 import com.mynt.parcel.costapi.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 
 @Service
@@ -41,32 +42,32 @@ public class CalculateServiceImpl implements ICalculateService {
 
         //Weight exceeds 50kg then return reject
         if (parcel.getWeight() > 50) {
-             resultModel= calculate(parcel, parcel.getWeight(), rule.getReject(),
-                                    message.getReject(),code.getFail(),
-                                    voucherCode);
+            resultModel = calculate(parcel, parcel.getWeight(), rule.getReject(),
+                    message.getReject(), code.getFail(),
+                    voucherCode);
             return resultModel;
         }
 
         //Weight exceeds 10kg then return Heavy Parcel, PHP 20 * Weight (kg)
         if (parcel.getWeight() > 10) {
             resultModel = calculate(parcel, parcel.getWeight(), rule.getHeavy(),
-                                    message.getHeavy(),code.getSuccess(),
-                                    voucherCode);
-            return  resultModel;
+                    message.getHeavy(), code.getSuccess(),
+                    voucherCode);
+            return resultModel;
         }
 
 
         if (parcel.getVolume() < 1500) {
-            resultModel = calculate(parcel,parcel.getVolume(), rule.getSmall(),message.getSmall(),
-                                    code.getSuccess(), voucherCode);
+            resultModel = calculate(parcel, parcel.getVolume(), rule.getSmall(), message.getSmall(),
+                    code.getSuccess(), voucherCode);
             return resultModel;
         }
 
         //Volume is less than 2500 cm3 ,PHP 0.04 * Volume
         if (parcel.getVolume() < 2500) {
-            resultModel = calculate(parcel,parcel.getVolume(), rule.getMedium(),message.getMedium(),
-                                    code.getSuccess(), voucherCode);
-            return  resultModel;
+            resultModel = calculate(parcel, parcel.getVolume(), rule.getMedium(), message.getMedium(),
+                    code.getSuccess(), voucherCode);
+            return resultModel;
         }
 
         //else then large parcel PHP 0.05 * Volume
@@ -74,7 +75,7 @@ public class CalculateServiceImpl implements ICalculateService {
                 parcel, parcel.getVolume(),
                 rule.getLarge(), message.getLarge(),
                 code.getSuccess(), voucherCode);
-        return  resultModel;
+        return resultModel;
     }
 
 
@@ -98,38 +99,25 @@ public class CalculateServiceImpl implements ICalculateService {
         ResultModel resultModel = new ResultModel();
         Voucher voucher = new Voucher();
 
-        //set parcel default voucher expired is true
-        //parcel.setVoucherExpired(true);
         //calculate cost
         double cost = weightOrVolume * voucherRule;
 
-        //if the message is Reject then no need get voucher,the cost is zero
-        //if message is not reject then calculate cost minus voucher
-        if (voucherMessage!=null && voucherMessage.equals(message.getReject()))
-        {
-            parcel.setCost(0);
-        }
-        else {
+        //get the discount
+        voucher = voucherService.getVoucherWithExpiredStatus(voucherCode);
 
-            //get the discount
-            voucher = voucherService.getVoucherWithExpiredStatus(voucherCode);
-
-            if(voucher!=null && voucher.getDiscount()>0 ) {
-                if(voucher.isExpired()== false) {
-                    //cost minus discount < 0, then cost =0;
-                    cost = cost - voucher.getDiscount();
-                    if (cost < 0) {
-                        cost = 0;
-                    }
+        if (voucher != null && voucher.getDiscount() > 0) {
+            if (voucher.isExpired() == false) {
+                //cost minus discount < 0, then cost =0;
+                cost = cost - voucher.getDiscount();
+                if (cost < 0) {
+                    cost = 0;
                 }
-                parcel.setVoucher(voucher);
-               /* parcel.setVoucherDiscount(voucher.getDiscount());
-                parcel.setVoucherExpired(voucher.isExpired());*/
             }
-            cost = (double) Math.round(cost * 100) / 100;
-            parcel.setCost(cost);
+            parcel.setVoucher(voucher);
 
         }
+        cost = (double) Math.round(cost * 100) / 100;
+        parcel.setCost(cost);
 
         resultModel.setCode(returnCode);
         resultModel.setMessage(voucherMessage);
