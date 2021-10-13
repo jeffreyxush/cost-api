@@ -55,12 +55,12 @@ public class VoucherServiceImpl implements IVoucherService {
 
 
     /**
-     * get discount by voucher
+     * judge voucher expired or not
      *
      * @param voucherCode
-     * @return cost result and parcel
+     * @return voucher with expired status
      */
-    public Voucher getDiscountbyVoucher(String voucherCode) {
+    public Voucher getVoucherWithExpiredStatus(String voucherCode) {
         //call voucher api
         Voucher voucher = getVoucher(voucherCode);
 

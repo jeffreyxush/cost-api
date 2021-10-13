@@ -5,7 +5,6 @@ import com.mynt.parcel.costapi.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import java.util.Date;
 
 @Service
 public class CalculateServiceImpl implements ICalculateService {
@@ -113,7 +112,7 @@ public class CalculateServiceImpl implements ICalculateService {
         else {
 
             //get the discount
-            voucher = voucherService.getDiscountbyVoucher(voucherCode);
+            voucher = voucherService.getVoucherWithExpiredStatus(voucherCode);
 
             if(voucher!=null && voucher.getDiscount()>0 ) {
                 if(voucher.isExpired()== false) {
